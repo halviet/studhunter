@@ -1,0 +1,31 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Главная{% endblock %}</title>
+    <link rel="stylesheet" type="text/css"
+    href="{% static 'main/style.css' %}">
+    {% bootstrap_javascript jquery='slim' %}   
+</head>
+<body>
+    <div class="login">
+        <ul>
+            <li><a href="{% url 'main:register' %}">Регистрация</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'main:profile' %}">Профиль</a></li>
+            <li><a href="{% url 'main:logout' %}">Выход</a></li>
+            {% else %}
+            <li><a href="{% url 'main:login' %}">Вход</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <section>
+        {% block content %}
+        {% endblock %}
+    </section>
+</body>
+</html>
