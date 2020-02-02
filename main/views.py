@@ -1,34 +1,26 @@
+from main.models import Main
 from django.shortcuts import render
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
+from main.serializers import MainSerializer, UserSerializer
+from django.contrib.auth.models import User
+from main.permissions import IsOwnerOrReadOnly
+from rest_framework.decorators import api_view, action
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework import renderers, viewsets, generics, permissions
 
-from .forms import RegisterUserForm
-from .models import AdvUser
+class MainViewSet(viewsets.ModelViewSet):
+    queryset = Main.objects.all()
+    serializer_class = MainSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-def index(request):
-    return render(request, 'main/index.html')
+    @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
+    def highlight(self, request, *args, **kwargs):
+        main = self.get_object()
+        return Response(main.highlighted)
 
-class SHLoginView(LoginView):
-    template_name = 'main/login.html'
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
-@login_required
-def profile(request):
-    return render(request, 'main/profile.html')
-
-class SHLogoutView(LoginRequiredMixin, LogoutView):
-    template_name = 'main/logout.html'
-
-class RegisterUserView(CreateView):
-    model = AdvUser
-    template_name = 'main/register_user.html'
-    form_class = RegisterUserForm
-    success_url = reverse_lazy('main:register_done')
-
-class RegisterDoneView(TemplateView):
-    template_name = 'main/register_done.html'
-
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
