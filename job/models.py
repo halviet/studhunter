@@ -1,33 +1,33 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from phone_field import PhoneField
 
 class MyAccountManager(BaseUserManager):
-    def create_user(self, email, username, last_name, middle_name, phone_number, password=None):
+    def create_user(self, email, first_name, last_name, middle_name, phone, password=None):
         if not email:
             raise ValueError("Users must have an email address")
-        if not username:
+        if not first_name:
             raise ValueError("users must have an username")
 
         user = self.model(
             email=self.normalize_email(email),
-            username=username,
+            first_name=first_name,
             last_name=last_name,
             middle_name=middle_name,
-            phone_number=phone_number,
+            phone=phone,
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, last_name, middle_name, phone_number, password):
+    def create_superuser(self, email, first_name, last_name, middle_name, phone, password):
         user = self.create_user(
             email=self.normalize_email(email),
             password=password,
-            username=username,
+            first_name=first_name,
             last_name=last_name,
             middle_name=middle_name,
-            phone_number=phone_number,
+            phone=phone,
         )
         user.is_admin = True
         user.is_staff = True
@@ -38,10 +38,10 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name='Электронная почта', max_length=60, unique=True)
-    username = models.CharField(verbose_name='Имя пользователя', max_length=30, unique=True)
+    first_name = models.CharField(verbose_name='Имя пользователя', max_length=30, unique=True)
     last_name = models.CharField(verbose_name='Фамилия', max_length=30)
     middle_name = models.CharField(verbose_name='Отчество', max_length=30)
-    phone_number = models.CharField(verbose_name='Телефонный номер', max_length=12)
+    phone = PhoneField(verbose_name='Телефонный номер')
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -49,7 +49,7 @@ class Account(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'last_name', 'middle_name', 'phone_number']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'middle_name', 'phone']
 
     objects = MyAccountManager()
 
