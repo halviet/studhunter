@@ -38,7 +38,7 @@ class MyAccountManager(BaseUserManager):
 
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name='Электронная почта', max_length=60, unique=True)
-    first_name = models.CharField(verbose_name='Имя пользователя', max_length=30, unique=True)
+    first_name = models.CharField(verbose_name='Имя пользователя', max_length=30)
     last_name = models.CharField(verbose_name='Фамилия', max_length=30)
     middle_name = models.CharField(verbose_name='Отчество', max_length=30)
     phone = PhoneField(verbose_name='Телефонный номер')
