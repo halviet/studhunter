@@ -1,7 +1,13 @@
 from rest_framework import serializers
 from job.models import Job
 
-class JobCreateSerializer(serializers.ModelSerializer):
+class JobDetailSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Job
         fields = '__all__'
+
+class JobListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = ('name', 'count_people', 'find', 'cost', 'execute_period', 'user')

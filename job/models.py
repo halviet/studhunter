@@ -23,6 +23,7 @@ class MyAccountManager(BaseUserManager):
     def create_superuser(self, email, first_name, last_name, middle_name, phone, password):
         user = self.create_user(
             email=self.normalize_email(email),
+            password=password,
             first_name=first_name,
             last_name=last_name,
             middle_name=middle_name,
@@ -63,10 +64,10 @@ class Account(AbstractBaseUser):
 
 
 class Job(models.Model):
-    title = models.CharField(verbose_name='Название работы', max_length=64, db_index=True)
-    num = models.IntegerField(verbose_name='Количество людей')
+    name = models.CharField(verbose_name='Название', max_length=64, db_index=True)
+    count_people = models.IntegerField(verbose_name='Количество людей')
     find = models.IntegerField(verbose_name='Найдено людей')
-    salary = models.IntegerField(verbose_name='Бюджет')
-    body = models.CharField(verbose_name='Описание работы', max_length=64)
-    date_end = models.DateTimeField(verbose_name='Когда нужно сделать')
+    cost = models.IntegerField(verbose_name='Цена')
+    description = models.CharField(verbose_name='Описание', max_length=1024)
+    execute_period = models.DateTimeField(verbose_name='Срок сдачи')
     user = models.ForeignKey(Account, verbose_name='Пользователь', on_delete=models.CASCADE)
