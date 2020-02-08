@@ -23,7 +23,6 @@ class MyAccountManager(BaseUserManager):
     def create_superuser(self, email, first_name, last_name, middle_name, phone, password):
         user = self.create_user(
             email=self.normalize_email(email),
-            password=password,
             first_name=first_name,
             last_name=last_name,
             middle_name=middle_name,
