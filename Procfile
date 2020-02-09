@@ -1,0 +1,1 @@
+web: gunicorn studhunter.wsgi --log-file -
