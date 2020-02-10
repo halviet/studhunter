@@ -65,9 +65,9 @@ class Account(AbstractBaseUser):
 
 class Job(models.Model):
     name = models.CharField(verbose_name='Название', max_length=64, db_index=True)
-    count_people = models.IntegerField(verbose_name='Количество людей')
-    find = models.IntegerField(verbose_name='Найдено людей')
-    cost = models.IntegerField(verbose_name='Цена')
+    count_people = models.CharField(verbose_name='Количество людей', max_length=10)
+    find = models.CharField(verbose_name='Найдено людей', max_length=10)
+    cost = models.CharField(verbose_name='Цена', max_length=100)
     description = models.CharField(verbose_name='Описание', max_length=1024)
     execute_period = models.CharField(verbose_name='Срок сдачи', max_length=20)
     user = models.ForeignKey(Account, verbose_name='Пользователь', on_delete=models.CASCADE)
