@@ -66,7 +66,7 @@ class Account(AbstractBaseUser):
 class Job(models.Model):
     name = models.CharField(verbose_name='Название', max_length=64, db_index=True)
     count_people = models.CharField(verbose_name='Количество людей', max_length=10)
-    find = models.CharField(verbose_name='Найдено людей', max_length=10)
+    find = models.CharField(verbose_name='Найдено людей', max_length=10, blank=True)
     cost = models.CharField(verbose_name='Цена', max_length=100)
     description = models.CharField(verbose_name='Описание', max_length=1024)
     execute_period = models.CharField(verbose_name='Срок сдачи', max_length=20)
