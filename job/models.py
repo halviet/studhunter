@@ -69,5 +69,5 @@ class Job(models.Model):
     find = models.CharField(verbose_name='Найдено людей', max_length=10, blank=True)
     cost = models.CharField(verbose_name='Цена', max_length=100)
     description = models.CharField(verbose_name='Описание', max_length=1024)
-    execute_period = models.CharField(verbose_name='Срок сдачи', max_length=20)
+    execute_period = models.CharField(verbose_name='Срок сдачи', max_length=20, blank=True)
     user = models.ForeignKey(Account, verbose_name='Пользователь', on_delete=models.CASCADE)
