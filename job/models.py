@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from phone_field import PhoneField
 
+
 class MyAccountManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, middle_name, phone, password=None):
         if not email:
