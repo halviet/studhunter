@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 class JobCreateView(generics.CreateAPIView):
     serializer_class = JobDetailSerializer
-    permission_classes = (IsAuthenticated, IsAdminUser, )
+    permission_classes = [IsAuthenticated|IsAdminUser]
 
 
 class JobListView(generics.ListAPIView):
@@ -18,4 +18,4 @@ class JobListView(generics.ListAPIView):
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = JobDetailSerializer
     queryset = Job.objects.all()
-    permission_classes = (IsOwnerOrReadOnly, IsAdminUser, )
+    permission_classes = [IsOwnerOrReadOnly|IsAdminUser]
