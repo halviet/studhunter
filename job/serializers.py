@@ -10,4 +10,4 @@ class JobDetailSerializer(serializers.ModelSerializer):
 class JobListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = ('name', 'count_people', 'find', 'cost', 'execute_period', 'user')
+        fields = '__all__'
